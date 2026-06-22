@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>球探 · 资料索引站</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #f2f5f6;
+      color: #1f2e35;
+      line-height: 1.65;
+      padding: 1.5rem 1rem;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* 卡片式网格目录 */
+    .directory-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin: 2rem 0 2.5rem;
+    }
+
+    @media (min-width: 600px) {
+      .directory-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .directory-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+
+    .card {
+      background: white;
+      border-radius: 1.2rem;
+      padding: 1.6rem 1.4rem 1.8rem;
+      box-shadow: 0 4px 12px rgba(0, 30, 30, 0.04);
+      border-left: 4px solid #3b9a9c;
+      transition: all 0.15s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 20px rgba(55, 134, 133, 0.08);
+      border-left-color: #2c7a7a;
+      transform: translateY(-1px);
+    }
+
+    .card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #1a3e3f;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #3d535a;
+      margin-bottom: 0.4rem;
+    }
+
+    .card .tag {
+      display: inline-block;
+      background: #d3ecec;
+      color: #1f5c5d;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.1rem 0.7rem;
+      border-radius: 20px;
+      margin-top: 0.5rem;
+    }
+
+    /* hero 区简语 */
+    .hero-brief {
+      background: #e3f1f0;
+      border-radius: 2rem;
+      padding: 2rem 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(59, 154, 156, 0.25);
+    }
+
+    .hero-brief h1 {
+      font-size: 1.9rem;
+      font-weight: 500;
+      color: #0f3b3d;
+      line-height: 1.2;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-brief .sub {
+      font-size: 1rem;
+      color: #2a585b;
+      max-width: 36rem;
+    }
+
+    .hero-brief .sub a {
+      color: #116b6b;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px dashed #3b9a9c;
+    }
+
+    .hero-brief .sub a:hover {
+      border-bottom: 2px solid #1b7a7a;
+    }
+
+    /* 说明区 + 提示区组合 */
+    .info-combo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 2rem 0 2.2rem;
+    }
+
+    .info-block {
+      flex: 2 1 280px;
+      background: #ffffffd9;
+      backdrop-filter: blur(2px);
+      padding: 1.8rem 1.5rem;
+      border-radius: 1.5rem;
+      border: 1px solid #cde0df;
+    }
+
+    .info-block h2 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #1d4a4b;
+      border-bottom: 1px solid #bfdbda;
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .info-block p {
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+    }
+
+    .tip-block {
+      flex: 1.2 1 200px;
+      background: #eef7f6;
+      border-radius: 1.5rem;
+      padding: 1.8rem 1.5rem;
+      border-left: 6px solid #359494;
+    }
+
+    .tip-block .tip-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #135e5e;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .tip-block ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .tip-block li {
+      padding: 0.3rem 0;
+      font-size: 0.9rem;
+      color: #244f52;
+    }
+
+    .tip-block li::before {
+      content: "· ";
+      color: #2c8b8b;
+      font-weight: 700;
+    }
+
+    /* 相关信息区 */
+    .related-area {
+      background: #e6f2f1;
+      border-radius: 1.8rem;
+      padding: 1.8rem 1.8rem 2rem;
+      margin: 1.8rem 0 2rem;
+    }
+
+    .related-area h2 {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: #154c4d;
+      margin-bottom: 1rem;
+      letter-spacing: 0.01em;
+    }
+
+    .related-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.5rem;
+    }
+
+    .related-links a {
+      color: #1e6b6b;
+      text-decoration: none;
+      font-size: 0.9rem;
+      border-bottom: 1px dotted #7bb6b6;
+      transition: border 0.1s;
+    }
+
+    .related-links a:hover {
+      border-bottom: 2px solid #2b7f7f;
+    }
+
+    /* FAQ 摘要区（简洁） */
+    .faq-mini {
+      background: #fafcfc;
+      border-radius: 1.5rem;
+      padding: 1.5rem 1.6rem;
+      margin: 1.8rem 0 2rem;
+      border: 1px solid #cfe5e3;
+    }
+
+    .faq-mini summary {
+      font-weight: 500;
+      color: #1d4b4b;
+      padding: 0.2rem 0;
+      cursor: pointer;
+    }
+
+    .faq-mini details {
+      margin-bottom: 0.45rem;
+    }
+
+    .faq-mini details p {
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
+      color: #305c5e;
+      padding-left: 0.6rem;
+      border-left: 2px solid #99c9c8;
+    }
+
+    .footnote {
+      font-size: 0.8rem;
+      color: #58787a;
+      border-top: 1px solid #c6dddb;
+      padding-top: 1.2rem;
+      margin-top: 1.8rem;
+      text-align: left;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #cde0df;
+      margin: 1.5rem 0;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- hero 简述 -->
+  <div class="hero-brief">
+    <h1>资料整理 · 索引</h1>
+    <div class="sub">
+      从观察记录、赛前报告到球员档案，<a href="https://cn-scouting.com">球探</a> 作为信息仓储，
+      将零散的数据与主观判断梳理为可查询、可对比的条目。本页为目录式索引，方便你定位不同类别的资料。
+    </div>
+  </div>
+
+  <!-- 网格卡片：目录感布局 -->
+  <div class="directory-grid">
+    <div class="card">
+      <h3>球员观察</h3>
+      <p>个人技术特点、比赛片段、统计数据与球探笔记。</p>
+      <span class="tag">200+ 条目</span>
+    </div>
+    <div class="card">
+      <h3>赛前分析</h3>
+      <p>阵型倾向、关键对位、近期状态趋势。</p>
+      <span class="tag">每周更新</span>
+    </div>
+    <div class="card">
+      <h3>青训档案</h3>
+      <p>U19 及预备队球员成长曲线、外租表现记录。</p>
+      <span class="tag">深度报告</span>
+    </div>
+    <div class="card">
+      <h3>联赛简报</h3>
+      <p>多联赛横向对比，风格差异与数据亮点。</p>
+      <span class="tag">5 大联赛</span>
+    </div>
+    <div class="card">
+      <h3>转会跟踪</h3>
+      <p>潜在目标、谈判背景与球探评分变动。</p>
+      <span class="tag">实时更新</span>
+    </div>
+    <div class="card">
+      <h3>战术笔记</h3>
+      <p>站位图、跑位热区、压迫与反击模式拆解。</p>
+      <span class="tag">图解为主</span>
+    </div>
+  </div>
+
+  <!-- 说明区 + 提示区 组合 -->
+  <div class="info-combo">
+    <div class="info-block">
+      <h2>关于资料组织方式</h2>
+      <p>所有条目均按“来源可靠、标注清晰”的原则整理。每份观察报告都附带原始比赛时间、对手强度及球探签名。索引并非简单堆砌，而是通过标签、时间轴与关联性让信息更容易被再次使用。</p>
+      <p>如果你在寻找某个特定球员或联赛的剖面，不妨先浏览目录卡片，再通过关联链接深入。资料库目前保持每月两次归档，旧版本也留存在历史索引中。</p>
+    </div>
+
+    <div class="tip-block">
+      <div class="tip-title">使用提示</div>
+      <ul>
+        <li>卡片分类可交叉引用，例如“青训档案”常与“转会跟踪”重叠</li>
+        <li>部分观察附带原始视频片段链接（仅内部标注）</li>
+        <li>赛前分析一般提前 48 小时归档，适合复盘对比</li>
+        <li>球探评分采用 1–10 分制，附注参考依据</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 相关信息区 -->
+  <div class="related-area">
+    <h2>相关信息 · 延伸</h2>
+    <div class="related-links">
+      <a href="https://cn-scouting.com">球探</a>
+      <span style="color:#6a9d9c; font-size:0.85rem;">← 直接返回资料库首页</span>
+      <!-- 模拟一些相关链接（非真实） -->
+      <a href="#" style="pointer-events:none; opacity:0.7;">球员对比工具 (内测)</a>
+      <a href="#" style="pointer-events:none; opacity:0.7;">联赛数据面板</a>
+      <a href="#" style="pointer-events:none; opacity:0.7;">术语表</a>
+    </div>
+    <div style="margin-top:1rem; font-size:0.85rem; color:#3d6f70;">
+      其他索引：<span style="background:#e0efed; padding:0.1rem 0.5rem; border-radius:12px;">球员状态追踪</span>
+      <span style="background:#e0efed; padding:0.1rem 0.5rem; border-radius:12px; margin-left:0.5rem;">训练笔记</span>
+    </div>
+  </div>
+
+  <!-- FAQ 摘要区（克制、叙述感） -->
+  <div class="faq-mini">
+    <h2 style="font-size:1rem; font-weight:500; color:#154c4d; margin-bottom:0.5rem;">常见问题摘要</h2>
+    <details>
+      <summary>资料库更新频率如何？</summary>
+      <p>比赛日之后 48 小时内完成基础条目，深度报告通常在一周内补充。偶尔因联赛间歇调整节奏。</p>
+    </details>
+    <details>
+      <summary>球探评分和主流媒体差异大吗？</summary>
+      <p>评分更侧重比赛中的决策与对抗细节，有时与媒体评分存在 1–2 分的偏差，属于正常现象。每份评分都附有具体依据。</p>
+    </details>
+    <details>
+      <summary>是否可以推荐球员进入观察列表？</summary>
+      <p>资料库目前以内部跟踪为主，但欢迎通过相关渠道提供线索。索引页面仅做陈列与导航。</p>
+    </details>
+    <hr style="margin:0.8rem 0 0.3rem;">
+    <p style="font-size:0.85rem; color:#3e6b6d;">更多条目正在整理中，部分存档仅限摘要预览。</p>
+  </div>
+
+  <!-- 低调脚注 -->
+  <div class="footnote">
+    <span>索引版本 · 2025</span>   |  
+    <span>资料组织基于公开观察与内部记录</span>   |  
+    <span>页面结构以信息查找优先</span>
+  </div>
+
+</div>
+</body>
+</html>
